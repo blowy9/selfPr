@@ -1,0 +1,48 @@
+<div class="editorWrapper">
+
+  <mat-toolbar>
+    <h1 innerHtml="{{article ? 'Edit' : 'Create'}}"></h1>
+    <button mat-raised-button color="primary" (click)="article ?
+    onSave(title.value, text.value, files, group.value, article) :
+    onCreate(title.value, text.value, files, group.value)"
+            [innerHtml]="article ? 'Save': 'Create'"
+    ></button>
+  </mat-toolbar>
+
+  <div class="main">
+
+    <form class="example-form">
+      <mat-form-field class="mat-form-field-appearance-fill">
+        <mat-label>Title</mat-label>
+        <input #title matInput placeholder="Title" [value]="article?.title">
+      </mat-form-field>
+    </form>
+    <mat-form-field class="mat-form-field-appearance-fill">
+      <mat-label>Text</mat-label>
+      <textarea #text id ="txt" matInput placeholder="Text" [innerHtml]="article?.text"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="side">
+
+    <div class="inputImg">
+      <input (change)=onSelect($event) type="file" id="file">
+      <div class="cardHolder">
+        <mat-card *ngFor="let img of files">
+          <img mat-card-image [src]="img" alt="">
+          <mat-card-actions>
+            <button class="deleteButton" mat-raised-button color="warn" (click)="onRemove($event)">X</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+
+
+
+    <mat-button-toggle-group value="{{article?.category|titlecase}}" #group = "matButtonToggleGroup" name="fontStyle" aria-label="Font Style">
+      <mat-button-toggle value="{{cat}}" *ngFor="let cat of cats">{{cat}}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+  </div>
+
+</div>

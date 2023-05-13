@@ -1,0 +1,13 @@
+<div class="articleWrapper">
+  <div class="imageCarousel">
+    <img src="*" alt="image">
+  </div>
+  <div>
+    <h1>{{article.title}}</h1>
+    <h2>{{article.category}}</h2>
+    <p>{{article.text}}</p>
+  </div>
+</div>
+<button mat-button (click)="toggleEdit()">Edit</button>
+<app-editor *ngIf="editOpen" [article]="article"></app-editor>
+<button mat-button (click)="back()">Back</button>

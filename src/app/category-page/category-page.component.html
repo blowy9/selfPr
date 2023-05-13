@@ -1,0 +1,20 @@
+<div *ngIf="category" class="artWrap">
+  <div class="art" *ngFor="let article of articlesSlice">
+    <app-article-card *ngIf="(article.category | lowercase) == category" [article]="article"></app-article-card>
+  </div>
+  <mat-paginator
+    [length]="articles.length"
+    [pageSizeOptions]="sizeOptions"
+    (page)="OnPageChange($event)">
+  </mat-paginator>
+</div>
+<div *ngIf="!category" class="artWrap">
+  <div class="art" *ngFor="let article of articlesSlice">
+    <app-article-card [article]="article"></app-article-card>
+  </div>
+  <mat-paginator
+    [length]="articles.length"
+    [pageSizeOptions]="sizeOptions"
+    (page)="OnPageChange($event)">
+  </mat-paginator>
+</div>
