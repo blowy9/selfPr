@@ -18,7 +18,7 @@ export class ArticleComponent implements OnInit {
   }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.article = this.articles.getArticles().find(x=> x.id == params['id'])
+      // this.article = this.articles.getArticles().find(x=> x.id == params['id'])
     });
   }
 

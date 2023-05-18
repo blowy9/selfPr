@@ -26,6 +26,7 @@ import {MatCardModule} from "@angular/material/card";
 import { CategoryPageComponent } from './category-page/category-page.component';
 import { ArticleComponent } from './article/article.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -56,9 +57,10 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         FormsModule,
         NgxDropzoneModule,
         MatCardModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+      HttpClientModule
     ],
-  providers: [],
+  providers: [HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,9 +2,8 @@
 
   <mat-toolbar>
     <h1 innerHtml="{{article ? 'Edit' : 'Create'}}"></h1>
-    <button mat-raised-button color="primary" (click)="article ?
-    onSave(title.value, text.value, files, group.value, article) :
-    onCreate(title.value, text.value, files, group.value)"
+    <button mat-raised-button color="primary" (click)="
+    onCreate(title.value, text.value, group.value)"
             [innerHtml]="article ? 'Save': 'Create'"
     ></button>
   </mat-toolbar>
@@ -25,18 +24,11 @@
 
   <div class="side">
 
-    <div class="inputImg">
-      <input (change)=onSelect($event) type="file" id="file">
-      <div class="cardHolder">
-        <mat-card *ngFor="let img of files">
-          <img mat-card-image [src]="img" alt="">
-          <mat-card-actions>
-            <button class="deleteButton" mat-raised-button color="warn" (click)="onRemove($event)">X</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </div>
-
+    <ngx-dropzone (change)="onSelect($event)">
+      <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+      <ngx-dropzone-image-preview [file]="f" *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+      </ngx-dropzone-image-preview>
+    </ngx-dropzone>
 
 
     <mat-button-toggle-group value="{{article?.category|titlecase}}" #group = "matButtonToggleGroup" name="fontStyle" aria-label="Font Style">

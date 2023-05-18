@@ -1,49 +1,52 @@
-import { Injectable } from '@angular/core';
+import { importProvidersFrom, Injectable } from '@angular/core';
+import { catchError, Observable, of, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
-export class Article{
-    constructor(title, text, images, category, id) {
-      this.id =id
-      this.title = title
-      this.text = text
-      this.pictures = images
-      this.category = category
+export class Article {
+  constructor(title, text, images, category) {
+    this.title = title;
+    this.text = text;
+    this.pictures = images;
+    this.category = category;
   }
 
-  id: number; title: string; text: string; pictures: File[]; category: string
+  id: number;
+  title: string;
+  text: string;
+  pictures: File[];
+  category: string;
+  createdAt: Date;
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ArticleService {
+  articleList: Article[];
+  constructor(private http: HttpClient) {}
 
-  articleList: Article[] =[]
+  getCats() {
+    return ['travel', 'pets', 'work', 'nature'];
+  }
+  async getArticles() {}
 
-  constructor() {
+  postUrl = 'http://localhost:3000/posts'
+  getAll(): Observable<any> {
+    return this.http.get(this.postUrl);
   }
 
 
-  getCats(){
-    return ['travel', 'pets', 'work', 'nature']
-  }
-  getArticles(){
-    return this.articleList
+  async getById(id){
+    return this.http.get(this.postUrl + "/" + id)
   }
 
-  createArticle(article){
-    this.articleList.push(article)
-  }
-
-  updateArticle(article){
-    this.articleList.map(x => {
-      if(x.id == article.id){
-        x = article
-      }
-      return x
-    })
-  }
-  saveArticle(id: number, article: Article){
-    this.articleList.find(x => x.id == id)
+  arr = ["gg wp", "gl hf", "something else"]
+  async post(article: Article) {
+    return this.http.post('http://localhost:3000/posts', {
+      "title": article.title,
+      "text": article.text,
+      "category": article.category,
+      "pictures": article.pictures
+    } ).subscribe();
   }
 }
