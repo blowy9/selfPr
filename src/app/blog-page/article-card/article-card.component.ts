@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Article} from "../../services/article.service";
+import {Article, ArticleService} from "../../services/article.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-article-card',
@@ -9,9 +10,19 @@ import {Article} from "../../services/article.service";
 export class ArticleCardComponent implements OnInit {
 
  @Input() article?: Article
-  constructor() { }
+  date = new Date
+  constructor(public articleService: ArticleService){ }
+
+  stringifyDate(date){
+   let stringDate = new Date(date.toString())
+    return stringDate.getDate() + "/" + stringDate.getMonth() + "/" + stringDate.getFullYear()
+  }
+
+  pictures
 
   ngOnInit(): void {
+   this.pictures = this.articleService.getPhotos(this.article._id) as Observable<String>
+    this.date = new Date(this.article.date.toString())
   }
 
 }

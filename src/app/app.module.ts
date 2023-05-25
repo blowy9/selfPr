@@ -20,13 +20,17 @@ import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 import { MatChipsModule } from '@angular/material/chips';
 import {MatButtonModule} from "@angular/material/button";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {MatCardModule} from "@angular/material/card";
 import { CategoryPageComponent } from './category-page/category-page.component';
 import { ArticleComponent } from './article/article.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {IvyCarouselModule} from "angular-responsive-carousel";
+import { SideBarComponent } from './side-bar/side-bar.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -39,27 +43,34 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     CreatePageComponent,
     SearchBarComponent,
     CategoryPageComponent,
-    ArticleComponent
+    ArticleComponent,
+    SideBarComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatSliderModule,
-        MatInputModule,
-        BrowserAnimationsModule,
-        MatPaginatorModule,
-        MatToolbarModule,
-        MatChipsModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        FormsModule,
-        NgxDropzoneModule,
-        MatCardModule,
-        InfiniteScrollModule,
-      HttpClientModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSliderModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    MatChipsModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    FormsModule,
+    NgxDropzoneModule,
+    MatCardModule,
+    InfiniteScrollModule,
+    HttpClientModule,
+    IvyCarouselModule,
+    MatSidenavModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    MatFormFieldModule
+  ],
   providers: [HttpClient],
   bootstrap: [AppComponent]
 })
