@@ -1,33 +1,49 @@
 <div class="sideBarWrapper">
 
-  <form class="example-form">
-    <mat-form-field class="example-full-width">
-      <mat-label>Assignee</mat-label>
-      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
+
+<!--  <mat-form-field>-->
+<!--  -->
+<!--    <mat-autocomplete #auto="matAutocomplete">-->
+<!--      <mat-option *ngFor="let option of options" [value]="option">-->
+<!--        {{option}}-->
+<!--      </mat-option>-->
+<!--    </mat-autocomplete>-->
+<!--    -->
+<!--  </mat-form-field>-->
+
 
   <mat-form-field>
 
     <mat-hint>Published after</mat-hint>
-    <input  matInput [matDatepicker]="datepickerStart">
+    <input matInput [matDatepicker]="datepickerStart" [(ngModel)]="startDate">
     <mat-datepicker-toggle matSuffix [for]="datepickerStart"></mat-datepicker-toggle>
-    <mat-datepicker #datepickerStart></mat-datepicker>
+    <mat-datepicker  #datepickerStart></mat-datepicker>
 
   </mat-form-field>
 
 <mat-form-field>
 
   <mat-hint>Published before</mat-hint>
-  <input  matInput [matDatepicker]="datepickerEnd">
+  <input matInput [matDatepicker]="datepickerEnd" [(ngModel)]="endDate">
   <mat-datepicker-toggle matSuffix [for]="datepickerEnd"></mat-datepicker-toggle>
   <mat-datepicker #datepickerEnd></mat-datepicker>
 
 </mat-form-field>
+
+  <mat-form-field>
+
+    <mat-label>Sort By</mat-label>
+    <mat-select [formControl]="sortMethods" [multiple]="false">
+      <mat-select-trigger>
+        {{sortMethods.value}}
+      </mat-select-trigger>
+      <mat-option *ngFor="let sortMethod of sortMethodsList" [value]="sortMethod">{{sortMethod}}</mat-option>
+    </mat-select>
+
+  </mat-form-field>
+
+
+
+  <button mat-raised-button color="primary" (click)="getParams()">Search</button>
 
 </div>

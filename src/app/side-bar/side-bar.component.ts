@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {MatDatepicker, MatDatepickerInput, MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {Component, EventEmitter, Output} from '@angular/core';
+import {FormControl} from "@angular/forms";
 import {map, Observable} from "rxjs";
 
 
@@ -14,6 +13,37 @@ class User {
   styleUrls: ['./side-bar.component.sass']
 })
 export class SideBarComponent {
+
+  startDate: Date
+  endDate: Date
+
+  @Output() params = new EventEmitter<string>()
+
+  toUsedFormat(parameter: Date){
+    return parameter.toLocaleDateString()
+  }
+
+  sortMethods = new FormControl('');
+
+  sortMethodsList: string[] = [`\u{21D1}` + ' Date',`\u{21D3}` + ' Date ' ];
+
+  getParams(){
+    if(this.startDate && this.endDate){
+        this.params.emit("startDate=" + this.toUsedFormat(this.startDate) + "&endDate=" + this.toUsedFormat(this.endDate))
+      }else{
+      if(this.startDate){
+        this.params.emit("startDate=" + this.toUsedFormat(this.startDate))
+    }else if(this.endDate){
+        this.params.emit("endDate=" + this.toUsedFormat(this.endDate))
+      }
+    }
+    return ""
+  }
+  output(one: any, two: any){
+    let newOne = one.split("/").reverse().join("/")
+    let newTwo = two.split("/").reverse().join("/")
+    console.log(newOne, newTwo)
+  }
 
   myControl = new FormControl<string | User>('');
   options: User[] = [{name: 'Mary'}, {name: 'Shelley'}, {name: 'Igor'}];

@@ -11,10 +11,18 @@ import {TitleCasePipe} from "@angular/common";
   styleUrls: ['./category-page.component.sass'],
 })
 export class CategoryPageComponent implements OnInit, OnDestroy{
-  private parameters$ = new BehaviorSubject<string>(""); // true is your initial value
+  private parameters$ = new BehaviorSubject<string>("");
 
   private parametersObservable: any;
   constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router) {
+  }
+
+  getPar(params){
+    console.log(params)
+    if(this.category){
+      this.parameters$.next(`?postCat=` + this.category + "?" + params)
+    }else this.parameters$.next("?" + params)
+    this.articles = this.articleService.get(this.parameters$.getValue())
   }
 
   category;

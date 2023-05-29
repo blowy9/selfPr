@@ -13,9 +13,9 @@ export class EditorComponent implements OnInit {
   @Input() article?: Article;
 
   cats = ['Travel', 'Work', 'Pets', 'Nature'];
-  constructor(private articles: ArticleService, private http: HttpClient) {}
+  constructor(private articleService: ArticleService, private http: HttpClient) {}
 
-  files = [];
+  files = []
   id = 0;
 
 
@@ -57,5 +57,13 @@ export class EditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.articleService.getPhotos(this.article._id).subscribe(x => {
+      x.map(async img => {
+        let blob = await fetch(this.articleService.getPhoto(img)).then(r => r.blob())
+        this.files.push(blob)
+      }
+      )
+    })
+    console.log("files: " + this.files)
   }
 }
