@@ -1,16 +1,33 @@
-<div *ngIf="display" class="sideBarWrapper">
+<div class="sideBarWrapper">
+
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Assignee</mat-label>
+      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
 
   <mat-form-field>
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate placeholder="Start date">
-      <input matEndDate placeholder="End date">
-    </mat-date-range-input>
-    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    <mat-hint>Published after</mat-hint>
+    <input  matInput [matDatepicker]="datepickerStart">
+    <mat-datepicker-toggle matSuffix [for]="datepickerStart"></mat-datepicker-toggle>
+    <mat-datepicker #datepickerStart></mat-datepicker>
+
   </mat-form-field>
 
+<mat-form-field>
 
+  <mat-hint>Published before</mat-hint>
+  <input  matInput [matDatepicker]="datepickerEnd">
+  <mat-datepicker-toggle matSuffix [for]="datepickerEnd"></mat-datepicker-toggle>
+  <mat-datepicker #datepickerEnd></mat-datepicker>
+
+</mat-form-field>
 
 </div>

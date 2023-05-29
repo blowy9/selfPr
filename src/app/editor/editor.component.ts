@@ -18,6 +18,7 @@ export class EditorComponent implements OnInit {
   files = [];
   id = 0;
 
+
   onUpload(file: File) {
     let image: string
       let reader = new FileReader();
