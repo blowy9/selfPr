@@ -37,7 +37,6 @@ export class SideBarComponent {
         this.params.emit("endDate=" + this.toUsedFormat(this.endDate))
       }
     }
-    return ""
   }
   output(one: any, two: any){
     let newOne = one.split("/").reverse().join("/")

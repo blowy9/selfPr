@@ -2,8 +2,8 @@
 
   <mat-toolbar>
     <h1 innerHtml="{{article ? 'Edit' : 'Create'}}"></h1>
-    <button mat-raised-button color="primary" (click)="
-    onCreate(title.value, text.value, group.value)"
+    <button mat-raised-button color="primary"
+            (click)="article ? onChange(title.value, text.value, group.value) : onCreate(title.value, text.value, group.value)"
             [innerHtml]="article ? 'Save': 'Create'"
     ></button>
   </mat-toolbar>
@@ -24,9 +24,9 @@
 
   <div class="side">
 
-    <ngx-dropzone (change)="onSelect($event)">
+    <ngx-dropzone *ngIf="!article" (change)="onSelect($event)">
       <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
-      <ngx-dropzone-image-preview [file]="f" *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+      <ngx-dropzone-image-preview [file]="f.bl" *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
       </ngx-dropzone-image-preview>
     </ngx-dropzone>
 

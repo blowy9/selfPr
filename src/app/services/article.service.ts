@@ -31,6 +31,33 @@ export class ArticleService {
   articleList: Article[];
   constructor(private http: HttpClient) {}
 
+  patch(articleId,title,text,category){
+    let x = new Article(title, text, category);
+    this.http.patch(`http://localhost:3000/posts/${articleId}`, {
+      "title": x.title,
+      "text": x.text,
+      "category": x.category,
+    }).subscribe();
+  }
+  post(title, text, category, files){
+    let newArr = []
+    let x = new Article(title, text, category);
+    this.http.post('http://localhost:3000/posts', {
+      "title": x.title,
+      "text": x.text,
+      "category": x.category,
+    }).subscribe(res => {
+      newArr.push(res)
+      files.map(x => {
+        let formdata = new FormData()
+        formdata.append("images", x)
+        formdata.append("articleId", newArr[0]._id)
+        formdata.append("name", x.name)
+        this.http.post('http://localhost:3000/posts/images', formdata).subscribe()
+      })
+    });
+  }
+
   getCats() {
     return ['travel', 'pets', 'work', 'nature'];
   }
@@ -60,8 +87,5 @@ export class ArticleService {
 
   getPhotos(articleId): Observable<any> {
     return this.http.get(this.postUrl.concat("/images/" + articleId))
-  }
-  async post(article: Article, images) {
-    return
   }
 }

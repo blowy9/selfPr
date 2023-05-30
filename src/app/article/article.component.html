@@ -1,13 +1,17 @@
 <div *ngIf="article$ | async as article" class="articleWrapper">
 
-
-  <div>
+  <div class="postText">
     <h1>{{article.title}}</h1>
     <h2>{{article.category}}</h2>
+    <app-carousel [pictures]="pictures"></app-carousel>
     <p>{{article.text}}</p>
   </div>
 
-<button mat-button (click)="toggleEdit()">Edit</button>
-<app-editor *ngIf="editOpen" [article]="article"></app-editor>
-<button mat-button (click)="back()">Back</button>
+  <div class="artNav">
+    <button mat-raised-button color="primary" (click)="toggleEdit()">Edit</button>
+    <button mat-raised-button color="warn" (click)="back()">Back</button>
+  </div>
+  <app-editor *ngIf="editOpen" [article]="article"></app-editor>
 </div>
+
+

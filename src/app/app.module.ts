@@ -34,6 +34,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from "@angular/material/select";
 import {CarouselModule} from "ngx-owl-carousel-o";
+import { CarouselComponent } from './shared/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {CarouselModule} from "ngx-owl-carousel-o";
     SearchBarComponent,
     CategoryPageComponent,
     ArticleComponent,
-    SideBarComponent
+    SideBarComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,

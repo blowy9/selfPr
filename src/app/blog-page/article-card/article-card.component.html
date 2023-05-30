@@ -3,11 +3,9 @@
     <mat-card-title>{{article.title}}</mat-card-title>
     <mat-card-subtitle>{{article.category}}</mat-card-subtitle>
   </mat-card-header>
-  <carousel [arrows]="false" [autoplay]="true">
-    <div class="carousel-cell" *ngFor="let img of pictures | async">
-      <img mat-card-image [src]="articleService.getPhoto(img)" alt="Photo of a Shiba Inu">
-    </div>
-  </carousel>
+
+  <app-carousel [pictures]="images"></app-carousel>
+
   <mat-card-content>
     <p>
       {{article.text}}

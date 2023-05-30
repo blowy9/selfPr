@@ -9,6 +9,8 @@ import {read} from "fs";
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.sass'],
 })
+
+
 export class EditorComponent implements OnInit {
   @Input() article?: Article;
 
@@ -18,15 +20,8 @@ export class EditorComponent implements OnInit {
   files = []
   id = 0;
 
-
-  onUpload(file: File) {
-    let image: string
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (events: any) => {
-        image =  JSON.stringify(reader.result)
-      };
-      return image
+  onChange(title, text, category) {
+    this.articleService.patch(this.article._id,title,text,category)
   }
 
   onSelect(event) {
@@ -37,29 +32,16 @@ export class EditorComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
   }
   onCreate(title, text, category) {
-    let newArr = []
-    let x = new Article(title, text, category);
-    this.http.post('http://localhost:3000/posts', {
-      "title": x.title,
-      "text": x.text,
-      "category": x.category,
-    }).subscribe( res => {
-      newArr.push(res)
-      this.files.map(x => {
-        let formdata = new FormData()
-        formdata.append("images", x)
-        formdata.append("articleId", newArr[0]._id)
-        formdata.append("name", x.name)
-        this.http.post('http://localhost:3000/posts/images', formdata).subscribe()
-      })
-    });
-
+    this.articleService.post(title,text,category, this.files)
   }
 
+  nameList =[]
   ngOnInit(): void {
     this.articleService.getPhotos(this.article._id).subscribe(x => {
       x.map(async img => {
-        let blob = await fetch(this.articleService.getPhoto(img)).then(r => r.blob())
+        let blob = { bl: [await fetch(this.articleService.getPhoto(img)).then(r => r.blob())], name:{
+          "name" : img
+        }}
         this.files.push(blob)
       }
       )

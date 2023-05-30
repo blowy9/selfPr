@@ -1,0 +1,7 @@
+<div class="slider">
+  <div class="nav">
+    <div class="arrow" (click)="rotate(false)">&#10094;</div>
+    <div class="arrow" (click)="rotate(true)">&#10095;</div>
+  </div>
+  <div class="slide" [ngStyle]="{ 'background-image': getCurrentSlideUrl() }"></div>
+</div>
