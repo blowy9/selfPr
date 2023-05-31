@@ -35,6 +35,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from "@angular/material/select";
 import {CarouselModule} from "ngx-owl-carousel-o";
 import { CarouselComponent } from './shared/carousel/carousel.component';
+import { CommentSectionComponent } from './article/comment-section/comment-section.component';
+import { CommentCreateComponent } from './article/comment-create/comment-create.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { CarouselComponent } from './shared/carousel/carousel.component';
     CategoryPageComponent,
     ArticleComponent,
     SideBarComponent,
-    CarouselComponent
+    CarouselComponent,
+    CommentSectionComponent,
+    CommentCreateComponent
   ],
   imports: [
     BrowserModule,

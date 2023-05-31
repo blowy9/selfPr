@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { Article, ArticleService } from '../services/article.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {TitleCasePipe} from "@angular/common";
+import {PageEvent} from "@angular/material/paginator";
 
 
 @Component({
@@ -14,31 +15,48 @@ export class CategoryPageComponent implements OnInit, OnDestroy{
   private parameters$ = new BehaviorSubject<string>("");
 
   private parametersObservable: any;
+
+  length$ = new BehaviorSubject<number>(10);
+
+  private lengthObservable: any;
+
+  page = 1
+  pageLimit = 10
+
   constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router) {
   }
 
   getPar(params){
     console.log(params)
     if(this.category){
-      this.parameters$.next(`?postCat=` + this.category + "?" + params)
-    }else this.parameters$.next("?" + params)
-    this.articles = this.articleService.get(this.parameters$.getValue())
+      this.parameters$.next(`postCat=` + this.category + "&" + params)
+    }else this.parameters$.next(params)
+    this.articleService.get(this.parameters$.getValue(), this.page, this.pageLimit).subscribe(returned => {
+      this.articles = []
+      this.articles.push(...returned.result)
+      this.length$.next(returned.listLength)
+    })
   }
 
   category;
-  articles: Observable<[Article]>;
+  articles: Article[] = [];
 
-  sizeOptions = [5, 10, 20];
+  sizeOptions = [10, 20, 50];
+
+
 
   ngOnInit() {
     this.parametersObservable = this.route.params.subscribe(params => {
       if(params['category']){
         this.category = params['category'].replace(/\b\S/g, t => t.toUpperCase());
-        this.parameters$.next(`?postCat=` + this.category)
+        this.parameters$.next(`postCat=` + this.category)
       }
-      this.articles = this.articleService.get(this.parameters$.getValue())
-    });
-
+      this.articleService.get(this.parameters$.getValue(), this.page, this.pageLimit).subscribe(returned => {
+        this.articles = []
+        this.articles.push(...returned.result)
+        this.length$.next(returned.listLength)
+      })
+    })
   }
 
 //Don't forget to unsubscribe from the Observable
@@ -48,11 +66,14 @@ export class CategoryPageComponent implements OnInit, OnDestroy{
     }
   }
 
-  // OnPageChange (event: PageEvent){
-  //   const startIndex = event.pageIndex * event.pageSize
-  //   let endIndex = startIndex + event.pageSize
-  //   if(endIndex > this.articles.length){
-  //     endIndex = this.articles.length
-  //   }
-  //   this.articlesSlice = this.articles.slice(startIndex,endIndex)
+  OnPageChange (event: PageEvent){
+    this.page = event.pageIndex + 1
+    this.pageLimit = event.pageSize
+    console.log(event.pageSize)
+    this.articleService.get(this.parameters$.getValue(), this.page, this.pageLimit).subscribe(returned => {
+      this.articles = []
+      this.articles.push(...returned.result)
+      this.length$.next(returned.listLength)
+    })
+  }
 }

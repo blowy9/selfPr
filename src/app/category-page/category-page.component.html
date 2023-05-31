@@ -1,8 +1,10 @@
 <div class="catWrapper">
   <div class="artWrap">
-    <div class="art" *ngFor="let article of articles | async">
+    <div class="art" *ngFor="let article of articles">
       <app-article-card [article]="article"></app-article-card>
     </div>
   </div>
   <app-side-bar (params)="getPar($event)"></app-side-bar>
+  <mat-paginator (page)="OnPageChange($event)" [length]="length$.getValue()" [pageSizeOptions]="[10, 50, 100]" aria-label="Select page">
+  </mat-paginator>
 </div>

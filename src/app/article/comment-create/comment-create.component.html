@@ -1,0 +1,10 @@
+<div class="createWrapper">
+
+  <mat-form-field>
+    <textarea #text matInput placeholder="enter your comment"></textarea>
+  </mat-form-field>
+
+  <button type="submit" (click)="onPost(text.value)">Post</button>
+</div>
+
+

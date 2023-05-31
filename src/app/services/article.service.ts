@@ -18,16 +18,23 @@ export class Article {
   date: Date;
 }
 
-export class Picture {
-
-  data: ArrayBuffer
-  name : string
+export class returnedPagination {
+  result: Article[]
+  listLength:  number
+}
+export class Comment {
+  Date: Date
+  text : string
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticleService {
+
+  postUrl = 'http://localhost:3000/posts'
+  commentUrl = 'http://localhost:3000/comments'
+
   articleList: Article[];
   constructor(private http: HttpClient) {}
 
@@ -58,12 +65,19 @@ export class ArticleService {
     });
   }
 
-  getCats() {
-    return ['travel', 'pets', 'work', 'nature'];
+  postComment(text, articleId){
+    this.http.post('http://localhost:3000/comments', {
+      "text": text,
+      "articleId": articleId
+    }).subscribe(res => console.log(res))
   }
 
-  getByCat(category){
-    return this.http.get(this.postUrl.concat("/getByCat/" + category)) as Observable<[Article]>
+  getComments(articleId){
+    return this.http.get(this.commentUrl + "/" + articleId) as Observable<Comment[]>
+  }
+
+  getCats() {
+    return ['travel', 'pets', 'work', 'nature'];
   }
 
   getPhoto(name){
@@ -71,13 +85,11 @@ export class ArticleService {
   }
   async getArticles() {}
 
-  postUrl = 'http://localhost:3000/posts'
-  getAll(): Observable<[Article]> {
-    return this.http.get(this.postUrl) as Observable<[Article]>;
-  }
 
-  get(params){
-    return this.http.get(this.postUrl.concat(params)) as Observable<[Article]>;
+
+  get(params, page, limit){
+    console.log(this.postUrl.concat(params))
+    return this.http.get(this.postUrl.concat("?").concat(params).concat(`&page=${page}&limit=${limit}`)) as Observable<returnedPagination>;
   }
 
 

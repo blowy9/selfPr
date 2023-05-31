@@ -20,7 +20,7 @@ export class SideBarComponent {
   @Output() params = new EventEmitter<string>()
 
   toUsedFormat(parameter: Date){
-    return parameter.toLocaleDateString()
+    return parameter.toLocaleDateString().split(".").reverse().join("/")
   }
 
   sortMethods = new FormControl('');
