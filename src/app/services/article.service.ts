@@ -54,6 +54,7 @@ export class ArticleService {
       "text": x.text,
       "category": x.category,
     }).subscribe(res => {
+      alert("created" + res)
       newArr.push(res)
       files.map(x => {
         let formdata = new FormData()
@@ -81,11 +82,9 @@ export class ArticleService {
   }
 
   getPhoto(name){
-    return "http://localhost:3000/posts/images/getByName/" + name
+    if (name) return "http://localhost:3000/posts/images/getByName/" + name
+    else return ""
   }
-  async getArticles() {}
-
-
 
   get(params, page, limit){
     console.log(this.postUrl.concat(params))

@@ -12,6 +12,10 @@ export class CommentSectionComponent implements OnInit{
   constructor(private articleService: ArticleService) {
   }
 
+  getNormalDate(date: string){
+    const newDate = new Date(date)
+    return newDate.toDateString()
+  }
   comments = []
   ngOnInit(): void {
     this.articleService.getComments(this.articleId).subscribe(comm => comm.map(x => this.comments.push(x)))

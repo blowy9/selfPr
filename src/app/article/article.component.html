@@ -12,7 +12,6 @@
     <button mat-raised-button color="warn" (click)="back()">Back</button>
   </div>
   <app-editor *ngIf="editOpen" [article]="article"></app-editor>
-  <app-comment-create [articleId]="article._id"></app-comment-create>
   <app-comment-section [articleId]="article._id"></app-comment-section>
 
 </div>

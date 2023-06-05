@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
+import { MatInput } from '@angular/material';
 import {map, Observable} from "rxjs";
 
 
@@ -23,6 +24,22 @@ export class SideBarComponent {
     return parameter.toLocaleDateString().split(".").reverse().join("/")
   }
 
+  @ViewChild('fromInput', {
+    read: MatInput
+  }) fromInput: MatInput;
+
+  @ViewChild('toInput', {
+    read: MatInput
+  }) toInput: MatInput;
+
+  resetForm() {
+    this.fromInput.value = '';
+    this.toInput.value = '';
+    this.startDate = null
+    this.endDate = null
+    this.getParams()
+  }
+
   sortMethods = new FormControl('');
 
   sortMethodsList: string[] = [`\u{21D1}` + ' Date',`\u{21D3}` + ' Date ' ];
@@ -35,36 +52,16 @@ export class SideBarComponent {
         this.params.emit("startDate=" + this.toUsedFormat(this.startDate))
     }else if(this.endDate){
         this.params.emit("endDate=" + this.toUsedFormat(this.endDate))
-      }
+      }else this.params.emit("")
     }
   }
+
   output(one: any, two: any){
     let newOne = one.split("/").reverse().join("/")
     let newTwo = two.split("/").reverse().join("/")
     console.log(newOne, newTwo)
   }
 
-  myControl = new FormControl<string | User>('');
-  options: User[] = [{name: 'Mary'}, {name: 'Shelley'}, {name: 'Igor'}];
-  filteredOptions: Observable<User[]>;
-
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.name;
-        return name ? this._filter(name as string) : this.options.slice();
-      }),
-    );
   }
-
-  displayFn(user: User): string {
-    return user && user.name ? user.name : '';
-  }
-
-  private _filter(name: string): User[] {
-    const filterValue = name.toLowerCase();
-
-    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-
 }

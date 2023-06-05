@@ -4,7 +4,7 @@
     <mat-card-subtitle>{{article.category}}</mat-card-subtitle>
   </mat-card-header>
 
-  <app-carousel [pictures]="images"></app-carousel>
+  <img class="titleImage" [src]="articleService.getPhoto(images[0])" alt="">
 
   <mat-card-content>
     <p>

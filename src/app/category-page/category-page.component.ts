@@ -16,32 +16,39 @@ export class CategoryPageComponent implements OnInit, OnDestroy{
 
   private parametersObservable: any;
 
-  length$ = new BehaviorSubject<number>(10);
+  length$ = new BehaviorSubject<number>(5);
 
   private lengthObservable: any;
 
   page = 1
-  pageLimit = 10
+  pageLimit = 5
 
   constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router) {
   }
 
   getPar(params){
-    console.log(params)
     if(this.category){
       this.parameters$.next(`postCat=` + this.category + "&" + params)
     }else this.parameters$.next(params)
+    this.getArticles()
+  }
+
+  getArticles(){
     this.articleService.get(this.parameters$.getValue(), this.page, this.pageLimit).subscribe(returned => {
       this.articles = []
       this.articles.push(...returned.result)
       this.length$.next(returned.listLength)
+      if (this.length$.getValue() < this.pageNumber*this.pageLimit){
+        this.pageNumber = Math.floor(this.length$.getValue()/this.pageLimit)
+        console.log(this.pageNumber)
+      }
     })
   }
 
   category;
   articles: Article[] = [];
 
-  sizeOptions = [10, 20, 50];
+  sizeOptions = [5, 10, 20];
 
 
 
@@ -51,13 +58,11 @@ export class CategoryPageComponent implements OnInit, OnDestroy{
         this.category = params['category'].replace(/\b\S/g, t => t.toUpperCase());
         this.parameters$.next(`postCat=` + this.category)
       }
-      this.articleService.get(this.parameters$.getValue(), this.page, this.pageLimit).subscribe(returned => {
-        this.articles = []
-        this.articles.push(...returned.result)
-        this.length$.next(returned.listLength)
-      })
+      this.getArticles()
     })
   }
+
+  pageNumber
 
 //Don't forget to unsubscribe from the Observable
   ngOnDestroy() {
@@ -69,11 +74,7 @@ export class CategoryPageComponent implements OnInit, OnDestroy{
   OnPageChange (event: PageEvent){
     this.page = event.pageIndex + 1
     this.pageLimit = event.pageSize
-    console.log(event.pageSize)
-    this.articleService.get(this.parameters$.getValue(), this.page, this.pageLimit).subscribe(returned => {
-      this.articles = []
-      this.articles.push(...returned.result)
-      this.length$.next(returned.listLength)
-    })
+    this.pageNumber = event.pageIndex
+    this.getArticles()
   }
 }

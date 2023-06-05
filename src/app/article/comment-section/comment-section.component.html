@@ -1,4 +1,6 @@
-<div *ngFor="let comment of comments">
-  <h1>{{comment.text}}</h1>
-  <p>{{comment.date}}</p>
+<app-comment-create [articleId]="articleId"></app-comment-create>
+
+<div class="commentWrapper" *ngFor="let comment of comments">
+  <p>{{getNormalDate(comment.date)}}</p>
+  <h3>{{comment.text}}</h3>
 </div>
