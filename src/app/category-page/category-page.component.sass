@@ -4,13 +4,23 @@ mat-paginator
   right: 400px
 
 .catWrapper
+  width: 100vw
   display: flex
+  justify-content: space-between
 
 .artWrap
-  margin: auto calc((100vh - 400px)/4)
+  height: calc(100vh - 64px)
+  width: 100%
   display: flex
-  flex-wrap: wrap
-  gap: 20px
+  justify-content: center
+  align-items: start
   padding: 20px
+
+.art
+  max-width: 1240px
+  display: flex
+  gap: 20px
+  flex-wrap: wrap
+  row-gap: 20px
+  box-sizing: border-box
   justify-content: left
-  width: calc(100vw - 440px)

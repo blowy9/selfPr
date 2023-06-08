@@ -12,6 +12,8 @@ import {PageEvent} from "@angular/material/paginator";
   styleUrls: ['./category-page.component.sass'],
 })
 export class CategoryPageComponent implements OnInit, OnDestroy{
+
+  sidebarOpen = false
   private parameters$ = new BehaviorSubject<string>("");
 
   private parametersObservable: any;
@@ -33,10 +35,13 @@ export class CategoryPageComponent implements OnInit, OnDestroy{
     this.getArticles()
   }
 
+  options = []
+
   getArticles(){
     this.articleService.get(this.parameters$.getValue(), this.page, this.pageLimit).subscribe(returned => {
       this.articles = []
       this.articles.push(...returned.result)
+      this.options = [...returned.titles]
       this.length$.next(returned.listLength)
       if (this.length$.getValue() < this.pageNumber*this.pageLimit){
         this.pageNumber = Math.floor(this.length$.getValue()/this.pageLimit)
@@ -60,6 +65,19 @@ export class CategoryPageComponent implements OnInit, OnDestroy{
       }
       this.getArticles()
     })
+    onmousemove = function(e){
+      let sidebar = document.getElementById("sideBar")
+      if(e.clientX > window.innerWidth - 400){
+        sidebar.style.width = "400px"
+      }else{
+        sidebar.style.width = "0"
+      }
+    }
+    if(document.getElementById("sideBar").style.width == "0"){
+      this.sidebarOpen = false
+    }else{
+      this.sidebarOpen = true
+    }
   }
 
   pageNumber

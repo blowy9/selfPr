@@ -1,6 +1,24 @@
 <div>
 
-  <form #filterForm="ngForm"  class="sideBarWrapper">
+  <form id="sideBar" #filterForm="ngForm"  class="sideBarWrapper">
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Search by title</mat-label>
+        <input type="text"
+               placeholder=""
+               [(ngModel)]="titleString"
+               aria-label=""
+               matInput
+               (ngModelChange)="change()"
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete [autoActiveFirstOption]="true" #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
     <mat-form-field>
 
       <mat-hint>Published after</mat-hint>
@@ -24,7 +42,7 @@
   <mat-form-field>
 
     <mat-label>Sort By</mat-label>
-    <mat-select (selectionChange)="getParams()" [formControl]="sortMethods" [multiple]="false" >
+    <mat-select [(ngModel)]="sortMethod" (selectionChange)="getParams()" [formControl]="sortMethods" [multiple]="false" >
       <mat-select-trigger>
         {{sortMethods.value}}
       </mat-select-trigger>

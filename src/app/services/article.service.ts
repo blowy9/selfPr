@@ -21,6 +21,7 @@ export class Article {
 export class returnedPagination {
   result: Article[]
   listLength:  number
+  titles: string[];
 }
 export class Comment {
   Date: Date

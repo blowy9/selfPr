@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import { MatInput } from '@angular/material';
-import {map, Observable} from "rxjs";
+import {debounceTime, map, Observable, startWith, Subject} from "rxjs";
 
 
 class User {
@@ -15,8 +15,25 @@ class User {
 })
 export class SideBarComponent {
 
+  @Input() options: string[]
+
+  sortMethod
+
+  constructor() {
+    this.titleChange.pipe(debounceTime(300)).subscribe(x => {
+      this.getParams()
+    })
+  }
+
   startDate: Date
   endDate: Date
+
+  titleString: string
+  titleChange = new Subject<string>()
+
+  change(){
+    this.titleChange.next("")
+  }
 
   @Output() params = new EventEmitter<string>()
 
@@ -33,6 +50,7 @@ export class SideBarComponent {
   }) toInput: MatInput;
 
   resetForm() {
+    this.titleString = ''
     this.fromInput.value = '';
     this.toInput.value = '';
     this.startDate = null
@@ -45,15 +63,26 @@ export class SideBarComponent {
   sortMethodsList: string[] = [`\u{21D1}` + ' Date',`\u{21D3}` + ' Date ' ];
 
   getParams(){
-    if(this.startDate && this.endDate){
-        this.params.emit("startDate=" + this.toUsedFormat(this.startDate) + "&endDate=" + this.toUsedFormat(this.endDate))
+    console.log(this.sortMethod)
+    let paramsString = ''
+    if (this.sortMethod) {
+      if (this.sortMethod === `\u{21D1}` + ' Date'){
+        paramsString += ("&sort=start")
       }else{
-      if(this.startDate){
-        this.params.emit("startDate=" + this.toUsedFormat(this.startDate))
-    }else if(this.endDate){
-        this.params.emit("endDate=" + this.toUsedFormat(this.endDate))
-      }else this.params.emit("")
+        paramsString += ("&sort=end")
+      }
     }
+    if(this.startDate){
+      paramsString += ("&startDate=" + this.toUsedFormat(this.startDate))
+    }
+    if(this.endDate){
+      paramsString += ("&endDate=" + this.toUsedFormat(this.endDate))
+    }
+    if(this.titleString){
+      paramsString += ("&title=" + this.titleString)
+    }
+    console.log(paramsString)
+    this.params.emit(paramsString)
   }
 
   output(one: any, two: any){
@@ -62,6 +91,19 @@ export class SideBarComponent {
     console.log(newOne, newTwo)
   }
 
+  myControl = new FormControl('');
+  filteredOptions: Observable<string[]>;
+
   ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 }

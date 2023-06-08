@@ -82,7 +82,8 @@ import { CommentCreateComponent } from './article/comment-create/comment-create.
     MatAutocompleteModule,
     MatOptionModule,
     MatSelectModule,
-    CarouselModule
+    CarouselModule,
+    MatInputModule
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent]
