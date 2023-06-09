@@ -1,7 +1,6 @@
-import { importProvidersFrom, Injectable } from '@angular/core';
-import { catchError, Observable, of, Subscription } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {observableToBeFn} from "rxjs/internal/testing/TestScheduler";
 
 export class Article {
   constructor(title, text, category) {

@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Article, ArticleService } from '../services/article.service';
-import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs';
-import {read} from "fs";
 
 @Component({
   selector: 'app-editor',
@@ -15,7 +12,7 @@ export class EditorComponent implements OnInit {
   @Input() article?: Article;
 
   cats = ['Travel', 'Work', 'Pets', 'Nature'];
-  constructor(private articleService: ArticleService, private http: HttpClient) {}
+  constructor(private articleService: ArticleService) {}
 
   files = []
   id = 0;
@@ -35,7 +32,6 @@ export class EditorComponent implements OnInit {
     this.articleService.post(title,text,category, this.files)
   }
 
-  nameList =[]
   ngOnInit(): void {
     this.articleService.getPhotos(this.article._id).subscribe(x => {
       x.map(async img => {

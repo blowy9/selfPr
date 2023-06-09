@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {PageEvent} from "@angular/material/paginator";
-import {Article} from "../services/article.service";
 
 @Component({
   selector: 'app-blog-page',
@@ -13,14 +11,6 @@ export class BlogPageComponent implements OnInit {
   number
 
   ngOnInit(): void {
-  }
-
-  onScrollDown() {
-    console.log("scrolled down!!");
-  }
-
-  onScrollUp() {
-    console.log("scrolled up!!");
   }
 
 }

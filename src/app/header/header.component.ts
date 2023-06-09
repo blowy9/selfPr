@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ArticleService} from "../services/article.service";
+import {SidebarService} from "../side-bar/sidebar.service";
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,7 @@ import {ArticleService} from "../services/article.service";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public article: ArticleService) { }
+  constructor(public article: ArticleService, public sidebar: SidebarService) { }
 
   ngOnInit(): void {
   }

@@ -1,20 +1,23 @@
 mat-paginator
-  position: fixed
+  position: absolute
   bottom: 0
-  right: 400px
+  right: 0
 
 .catWrapper
   width: 100vw
   display: flex
   justify-content: space-between
+  overflow: hidden
 
 .artWrap
+  position: relative
   height: calc(100vh - 64px)
   width: 100%
   display: flex
   justify-content: center
   align-items: start
   padding: 20px
+  box-sizing: border-box
 
 .art
   max-width: 1240px

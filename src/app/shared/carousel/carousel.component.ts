@@ -1,7 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ArticleService} from "../../services/article.service";
-import {Observable} from "rxjs";
-import {considerSettingUpAutocompletion} from "@angular/cli/src/utilities/completion";
 
 @Component({
   selector: 'app-carousel',

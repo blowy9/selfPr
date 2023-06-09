@@ -1,9 +1,20 @@
 <mat-toolbar>
+
   <div class="headerWrapper">
+
     <a routerLink="/"><img src="" alt="logo"/></a>
+
     <div class="links">
       <a *ngFor="let cat of article.getCats()" routerLinkActive="activeLink" routerLink="articles/{{cat}}">{{cat | titlecase}}</a>
     </div>
-    <app-new-article-button></app-new-article-button>
+
+    <div class="sideNav">
+
+      <app-new-article-button></app-new-article-button>
+      <div class="sidebarToggleButton" (click)="sidebar.sidebarToggle()">&#8801;</div>
+
+    </div>
+
   </div>
+
 </mat-toolbar>

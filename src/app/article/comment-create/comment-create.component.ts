@@ -1,7 +1,5 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ArticleService} from "../../services/article.service";
-import {inputNames} from "@angular/material/schematics/ng-update/data";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-comment-create',

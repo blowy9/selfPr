@@ -4,10 +4,6 @@ import { MatInput } from '@angular/material';
 import {debounceTime, map, Observable, startWith, Subject} from "rxjs";
 
 
-class User {
-  name: any;
-}
-
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
@@ -17,30 +13,6 @@ export class SideBarComponent {
 
   @Input() options: string[]
 
-  sortMethod
-
-  constructor() {
-    this.titleChange.pipe(debounceTime(300)).subscribe(x => {
-      this.getParams()
-    })
-  }
-
-  startDate: Date
-  endDate: Date
-
-  titleString: string
-  titleChange = new Subject<string>()
-
-  change(){
-    this.titleChange.next("")
-  }
-
-  @Output() params = new EventEmitter<string>()
-
-  toUsedFormat(parameter: Date){
-    return parameter.toLocaleDateString().split(".").reverse().join("/")
-  }
-
   @ViewChild('fromInput', {
     read: MatInput
   }) fromInput: MatInput;
@@ -49,18 +21,58 @@ export class SideBarComponent {
     read: MatInput
   }) toInput: MatInput;
 
+  @Output() params = new EventEmitter<string>()
+
+  sortMethods = new FormControl('');
+  sortMethodsList: string[] = [`\u{21D1}` + ' Date',`\u{21D3}` + ' Date ' ];
+
+  sortMethod: string
+
+  startDate: Date
+  endDate: Date
+
+  titleString: string
+  titleChange = new Subject<number>()
+
+  i: number = 0
+
+  myControl = new FormControl('');
+  filteredOptions: Observable<string[]>;
+
+  constructor() {
+    this.titleChange.pipe(debounceTime(300)).subscribe(x => {
+      if (x != 0){
+        this.getParams()
+      }
+      console.log("logged")
+    })
+  }
+
+  ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+  }
+
+  change(){
+    this.titleChange.next(this.i)
+    this.i++
+  }
+
+  toUsedFormat(parameter: Date){
+    return parameter.toLocaleDateString().split(".").reverse().join("/")
+  }
+
   resetForm() {
     this.titleString = ''
     this.fromInput.value = '';
     this.toInput.value = '';
     this.startDate = null
     this.endDate = null
+    this.sortMethod = null
     this.getParams()
   }
-
-  sortMethods = new FormControl('');
-
-  sortMethodsList: string[] = [`\u{21D1}` + ' Date',`\u{21D3}` + ' Date ' ];
 
   getParams(){
     console.log(this.sortMethod)
@@ -90,20 +102,10 @@ export class SideBarComponent {
     let newTwo = two.split("/").reverse().join("/")
     console.log(newOne, newTwo)
   }
-
-  myControl = new FormControl('');
-  filteredOptions: Observable<string[]>;
-
-  ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-  }
-
+  
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
+
 }

@@ -1,31 +1,52 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import { Article, ArticleService } from '../services/article.service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {TitleCasePipe} from "@angular/common";
+import {BehaviorSubject} from 'rxjs';
 import {PageEvent} from "@angular/material/paginator";
+import {animate, style, transition, trigger} from "@angular/animations";
+import {SidebarService} from "../side-bar/sidebar.service";
 
 
 @Component({
   selector: 'app-category-page',
   templateUrl: './category-page.component.html',
   styleUrls: ['./category-page.component.sass'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ width: 0 }),
+            animate('0.5s ease-out',
+              style({ width: 400 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ width: 400 }),
+            animate('0.5s ease-in',
+              style({ width: 0} ))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class CategoryPageComponent implements OnInit, OnDestroy{
 
-  sidebarOpen = false
   private parameters$ = new BehaviorSubject<string>("");
 
   private parametersObservable: any;
 
   length$ = new BehaviorSubject<number>(5);
 
-  private lengthObservable: any;
-
   page = 1
   pageLimit = 5
 
-  constructor(private route: ActivatedRoute, private articleService: ArticleService, private router: Router) {
+  constructor(private route: ActivatedRoute, private articleService: ArticleService, public sidebar: SidebarService) {
   }
 
   getPar(params){
@@ -65,19 +86,6 @@ export class CategoryPageComponent implements OnInit, OnDestroy{
       }
       this.getArticles()
     })
-    onmousemove = function(e){
-      let sidebar = document.getElementById("sideBar")
-      if(e.clientX > window.innerWidth - 400){
-        sidebar.style.width = "400px"
-      }else{
-        sidebar.style.width = "0"
-      }
-    }
-    if(document.getElementById("sideBar").style.width == "0"){
-      this.sidebarOpen = false
-    }else{
-      this.sidebarOpen = true
-    }
   }
 
   pageNumber

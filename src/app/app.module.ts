@@ -9,14 +9,13 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HeaderComponent } from './header/header.component';
-import { NewArticleButtonComponent } from './Header/new-article-button/new-article-button.component';
+import { NewArticleButtonComponent } from './header/new-article-button/new-article-button.component';
 import { BlogPageComponent } from './blog-page/blog-page.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { ArticleCardComponent } from './blog-page/article-card/article-card.component';
 import { EditorComponent } from './editor/editor.component';
 import { CreatePageComponent } from './create-page/create-page.component';
-import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 import { MatChipsModule } from '@angular/material/chips';
 import {MatButtonModule} from "@angular/material/button";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
@@ -47,7 +46,6 @@ import { CommentCreateComponent } from './article/comment-create/comment-create.
     ArticleCardComponent,
     EditorComponent,
     CreatePageComponent,
-    SearchBarComponent,
     CategoryPageComponent,
     ArticleComponent,
     SideBarComponent,
@@ -85,7 +83,7 @@ import { CommentCreateComponent } from './article/comment-create/comment-create.
     CarouselModule,
     MatInputModule
   ],
-  providers: [HttpClient],
+  providers: [HttpClient, CategoryPageComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
